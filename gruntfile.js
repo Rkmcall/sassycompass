@@ -1,10 +1,5 @@
 module.exports = function(grunt) {
 
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-browser-sync');
-
 	grunt.initConfig({
 
 		pkg: grunt.file.readJSON('package.json'),
@@ -12,7 +7,7 @@ module.exports = function(grunt) {
 		uglify: {
 			my_target : {
 				files : {
-					'_/js/script.js': ['_/components/js/*.js']
+					'js/script.js': ['components/js/*.js']
 				} // files
 			}  // my_target
 		}, // uglify
@@ -20,21 +15,21 @@ module.exports = function(grunt) {
 		less: {
  			development: {
     			options: {
-      				paths: ["_/components/less"],
+      				paths: ["components/less"],
       				compress: true
       					},
-    			files: {"_/css/styles.css": "_/components/less/styles.less"
+    			files: {"css/styles.css": "components/less/styles.less"
     				}
   				},
 			}, // less 
 
 		watch: {
 			scripts: {
-				files: ['_/components/js/*.js'],
+				files: ['components/js/*.js'],
 				tasks: ['uglify']
 			}, // scripts
 			css: {
-				files: ['_/components/less/*.less'],
+				files: ['components/less/*.less'],
 				tasks: ['less']
 			} // css
 
@@ -44,19 +39,31 @@ module.exports = function(grunt) {
             dev: {
                 bsFiles: {
                     src : [
-                        '_/css/*.css',
+                        'css/*.css',
                         '*.html'
                     ]
                 }, // bsFiles
                 options: {
                     watchTask: true,
-                    server: '.'
+                    server: '.',
+                    ghostMode: {
+    					clicks: true,
+    					forms: true,
+    					scroll: true
+					} // ghostMode
                 } // options
             } // dev
         } // browserSync
 
 
 	}) // initConfig
+
+
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-browser-sync');
+
 
 	grunt.registerTask('default', ['browserSync', 'watch']);
 } // exports 
